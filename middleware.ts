@@ -38,7 +38,7 @@ export async function middleware(request: NextRequest) {
 
     const { payload } = await jwtVerify<TokenPayload>(token, SECRET);
 
-    if (isAdminRoute && payload.roleId !== 1) {
+    if (isAdminRoute && payload.roleId !== 2) {
       if (!pathname.startsWith('/api')) {
         return NextResponse.redirect(new URL('/forbidden', request.url));
       }
@@ -48,7 +48,7 @@ export async function middleware(request: NextRequest) {
       );
     }
 
-    if (isEmployeeRoute && payload.roleId !== 2) {
+    if (isEmployeeRoute && payload.roleId !== 3) {
       if (!pathname.startsWith('/api')) {
         return NextResponse.redirect(new URL('/forbidden', request.url));
       }

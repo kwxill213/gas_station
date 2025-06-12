@@ -1,0 +1,34 @@
+{
+  "version": "7",
+  "dialect": "mysql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1749721620480,
+      "tag": "0000_fantastic_ink",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1749721698108,
+      "tag": "0001_strong_lord_tyger",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1749726316409,
+      "tag": "0002_acoustic_exodus",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "5",
+      "when": 1749732537136,
+      "tag": "0003_uneven_havok",
+      "breakpoints": true
+    }
+  ]
+}
