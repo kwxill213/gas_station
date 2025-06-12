@@ -7,7 +7,6 @@ export async function POST(request: Request) {
     const body = await request.json();
     const { name, email, phone, subject, message } = body;
 
-    // Валидация данных
     if (!name || !email || !subject || !message) {
       return NextResponse.json(
         { error: 'Пожалуйста, заполните все обязательные поля' },
@@ -15,7 +14,6 @@ export async function POST(request: Request) {
       );
     }
 
-    // Создание тикета в базе данных
     const [ticket] = await db.insert(supportTickets).values({
       name,
       email,

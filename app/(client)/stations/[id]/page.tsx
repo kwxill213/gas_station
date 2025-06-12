@@ -2,15 +2,18 @@ import db from '@/drizzle';
 import { gasStations } from '@/drizzle/schema';
 import { eq } from 'drizzle-orm';
 import ReviewsSection from '@/components/client/stations/ReviewsSection';
+import { notFound } from 'next/navigation';
 
-interface StationPageProps {
-  params: {
-    id: string;
-  };
-}
-
-export default async function StationPage({ params }: StationPageProps) {
+export default async function StationPage({ 
+  params 
+}: { 
+  params: Promise<{ id: string }> 
+}) {
   const stationId = parseInt((await params).id);
+
+  if (isNaN(stationId)) {
+    return notFound();
+  }
 
   const [station] = await db
     .select()
@@ -19,11 +22,7 @@ export default async function StationPage({ params }: StationPageProps) {
     .limit(1);
 
   if (!station) {
-    return (
-      <div className="container mx-auto px-4 py-8">
-        <h1 className="text-2xl font-bold text-red-500">АЗС не найдена</h1>
-      </div>
-    );
+    return notFound();
   }
 
   return (
@@ -35,4 +34,4 @@ export default async function StationPage({ params }: StationPageProps) {
       </div>
     </div>
   );
-} 
+}

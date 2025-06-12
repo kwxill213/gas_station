@@ -27,7 +27,6 @@ export default function FuelPricesSection() {
         if (!response.ok) throw new Error('Failed to fetch prices');
         const data = await response.json();
         
-        // Преобразуем данные в плоский массив цен
         const allPrices = data.flatMap((station: any) =>
           station.fuelPrices.map((price: any) => ({
             ...price,
@@ -47,14 +46,12 @@ export default function FuelPricesSection() {
     fetchPrices();
   }, []);
 
-  // Фильтрация цен
   const filteredPrices = prices.filter(price => {
     const matchesSearch = price.stationName.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesFuelType = selectedFuelType === 'all' || price.fuelTypeId.toString() === selectedFuelType;
     return matchesSearch && matchesFuelType;
   });
 
-  // Получаем уникальные типы топлива
   const fuelTypes = Array.from(new Set(prices.map(price => price.fuelTypeId)))
     .map(id => prices.find(price => price.fuelTypeId === id))
     .filter(Boolean);

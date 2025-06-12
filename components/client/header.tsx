@@ -2,7 +2,7 @@
 import Link from 'next/link';
 import { Button } from '../ui/button';
 import { useAuth } from '@/lib/hooks/useAuth';
-import { Wrench, Fuel, User, MapPin, Star, Info, Phone } from 'lucide-react';
+import { Wrench, Fuel, User, MapPin, Star, Info, Phone, Percent } from 'lucide-react';
 import { useState, useRef, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
@@ -33,8 +33,7 @@ export default function Header() {
 
   const navLinks = [
     { href: "/stations", icon: <Fuel className="h-5 w-5 mr-2" />, text: "АЗС и цены" },
-    // { href: "/promotions", icon: null, text: "Акции" },
-    // { href: "/map", icon: <MapPin className="h-5 w-5 mr-2" />, text: "Карта АЗС" },
+    { href: "/promotions", icon: <Percent className="h-5 w-5 mr-2" />, text: "Акции" },
     { href: "/reviews", icon: <Star className="h-5 w-5 mr-2" />, text: "Отзывы" },
     { href: "/about", icon: <Info className="h-5 w-5 mr-2" />, text: "О нас" },
     { href: "/contacts", icon: <Phone className="h-5 w-5 mr-2" />, text: "Контакты" },

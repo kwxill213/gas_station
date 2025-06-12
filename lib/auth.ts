@@ -1,4 +1,4 @@
-// lib/auth.ts
+
 import { cookies, headers } from 'next/headers';
 import jwt from 'jsonwebtoken';
 import { TokenPayload } from './types';

@@ -88,39 +88,6 @@ export const reviews = mysqlTable('reviews', {
     responseDate: timestamp('response_date'),
 });
 
-export const loyaltyCards = mysqlTable('loyalty_cards', {
-    id: int('id').autoincrement().primaryKey(),
-    userId: int('user_id').notNull().references(() => users.id, {
-        onDelete: 'cascade',
-        onUpdate: 'cascade'
-    }).unique(),
-    cardNumber: varchar('card_number', { length: 20 }).notNull().unique(),
-    points: int('points').notNull().default(0),
-    level: int('level').notNull().default(1),
-    issuedAt: timestamp('issued_at').defaultNow(),
-});
-
-export const transactions = mysqlTable('transactions', {
-    id: int('id').autoincrement().primaryKey(),
-    userId: int('user_id').notNull().references(() => users.id, {
-        onDelete: 'cascade',
-        onUpdate: 'cascade'
-    }),
-    stationId: int('station_id').notNull().references(() => gasStations.id, {
-        onDelete: 'cascade',
-        onUpdate: 'cascade'
-    }),
-    fuelTypeId: int('fuel_type_id').notNull().references(() => fuelTypes.id, {
-        onDelete: 'restrict',
-        onUpdate: 'cascade'
-    }),
-    volume: decimal('volume', { precision: 10, scale: 2 }).notNull(),
-    price: decimal('price', { precision: 10, scale: 2 }).notNull(), // цена за литр
-    total: decimal('total', { precision: 10, scale: 2 }).notNull(), // итоговая сумма
-    pointsUsed: int('points_used').default(0), // использовано баллов
-    createdAt: timestamp('created_at').defaultNow(),
-});
-
 export const supportTickets = mysqlTable('support_tickets', {
     id: int('id').autoincrement().primaryKey(),
     userId: int('user_id').references(() => users.id, {
@@ -138,17 +105,52 @@ export const supportTickets = mysqlTable('support_tickets', {
     updatedAt: timestamp('updated_at').defaultNow(),
 });
 
-export const supportResponses = mysqlTable('support_responses', {
-    id: int('id').autoincrement().primaryKey(),
-    ticketId: int('ticket_id').notNull().references(() => supportTickets.id, {
-        onDelete: 'cascade',
-        onUpdate: 'cascade'
-    }),
-    userId: int('user_id').references(() => users.id, {
-        onDelete: 'set null',
-        onUpdate: 'cascade'
-    }),
-    message: text('message').notNull(),
-    isInternal: boolean('is_internal').default(false),
-    createdAt: timestamp('created_at').defaultNow(),
-});
+// export const loyaltyCards = mysqlTable('loyalty_cards', {
+//     id: int('id').autoincrement().primaryKey(),
+//     userId: int('user_id').notNull().references(() => users.id, {
+//         onDelete: 'cascade',
+//         onUpdate: 'cascade'
+//     }).unique(),
+//     cardNumber: varchar('card_number', { length: 20 }).notNull().unique(),
+//     points: int('points').notNull().default(0),
+//     level: int('level').notNull().default(1),
+//     issuedAt: timestamp('issued_at').defaultNow(),
+// });
+
+// export const transactions = mysqlTable('transactions', {
+//     id: int('id').autoincrement().primaryKey(),
+//     userId: int('user_id').notNull().references(() => users.id, {
+//         onDelete: 'cascade',
+//         onUpdate: 'cascade'
+//     }),
+//     stationId: int('station_id').notNull().references(() => gasStations.id, {
+//         onDelete: 'cascade',
+//         onUpdate: 'cascade'
+//     }),
+//     fuelTypeId: int('fuel_type_id').notNull().references(() => fuelTypes.id, {
+//         onDelete: 'restrict',
+//         onUpdate: 'cascade'
+//     }),
+//     volume: decimal('volume', { precision: 10, scale: 2 }).notNull(),
+//     price: decimal('price', { precision: 10, scale: 2 }).notNull(), // цена за литр
+//     total: decimal('total', { precision: 10, scale: 2 }).notNull(), // итоговая сумма
+//     pointsUsed: int('points_used').default(0), // использовано баллов
+//     createdAt: timestamp('created_at').defaultNow(),
+// });
+
+
+
+// export const supportResponses = mysqlTable('support_responses', {
+//     id: int('id').autoincrement().primaryKey(),
+//     ticketId: int('ticket_id').notNull().references(() => supportTickets.id, {
+//         onDelete: 'cascade',
+//         onUpdate: 'cascade'
+//     }),
+//     userId: int('user_id').references(() => users.id, {
+//         onDelete: 'set null',
+//         onUpdate: 'cascade'
+//     }),
+//     message: text('message').notNull(),
+//     isInternal: boolean('is_internal').default(false),
+//     createdAt: timestamp('created_at').defaultNow(),
+// });

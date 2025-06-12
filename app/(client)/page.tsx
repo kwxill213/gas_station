@@ -1,10 +1,34 @@
+'use client';
 import HeroSection from "@/components/client/herosection";
 import { Button } from "@/components/ui/button";
 import { Fuel, Clock, Shield, Percent } from 'lucide-react';
 import Image from "next/image";
 import Link from "next/link";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Calendar } from 'lucide-react';
+import { useData } from "@/lib/hooks/useData";
+
+interface Promotion {
+  id: number;
+  title: string;
+  description: string;
+  startDate: string;
+  endDate: string;
+  stationId: number | null;
+  discountValue: number | null;
+  isActive: boolean;
+  imageUrl: string | null;
+  station?: {
+    name: string;
+    address: string;
+  };
+}
 
 export default function Home() {
+  const { data: promotions } = useData<Promotion>({ endpoint: 'promotions' });
+
+  const activePromotions = promotions?.filter(promo => promo.isActive).slice(0, 3) || [];
+
   const features = [
     {
       icon: <Fuel className="h-8 w-8 text-primary" />,
@@ -52,6 +76,63 @@ export default function Home() {
           ))}
         </div>
       </section>
+
+      {activePromotions.length > 0 && (
+        <section className="bg-secondary py-12">
+          <div className="container mx-auto px-4">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl font-bold mb-4">Актуальные акции</h2>
+              <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+                Специальные предложения и скидки на наших АЗС
+              </p>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {activePromotions.map((promo) => (
+                <Card key={promo.id} className="overflow-hidden">
+                  {promo.imageUrl && (
+                    <div className="relative h-48 w-full">
+                      <Image
+                        src={promo.imageUrl}
+                        alt={promo.title}
+                        fill
+                        className="object-cover"
+                      />
+                    </div>
+                  )}
+                  <CardHeader>
+                    <CardTitle>{promo.title}</CardTitle>
+                    <CardDescription>
+                      {promo.discountValue && (
+                        <span className="text-primary font-semibold">
+                          Скидка {promo.discountValue}%
+                        </span>
+                      )}
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-sm text-muted-foreground mb-4">{promo.description}</p>
+                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                      <Calendar className="h-4 w-4" />
+                      <span>
+                        {new Date(promo.startDate).toLocaleDateString()} - {new Date(promo.endDate).toLocaleDateString()}
+                      </span>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+
+            <div className="text-center mt-8">
+              <Link href="/promotions">
+                <Button size="lg">
+                  Все акции
+                </Button>
+              </Link>
+            </div>
+          </div>
+        </section>
+      )}
       
       <section className="bg-secondary py-12">
         <div className="container mx-auto px-4 text-center">
@@ -63,11 +144,6 @@ export default function Home() {
             <Link href="/stations">
               <Button className="px-8 py-4 text-lg">
                 Посмотреть все АЗС
-              </Button>
-            </Link>
-            <Link href="/map">
-              <Button variant="outline" className="px-8 py-4 text-lg">
-                Открыть карту
               </Button>
             </Link>
           </div>

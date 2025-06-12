@@ -17,7 +17,6 @@ export default function StationsPage() {
     setSelectedStation(station);
     if (station) {
       setActiveTab('reviews');
-      // Даем время на рендер вкладки отзывов
       setTimeout(() => {
         tabsRef.current?.scrollIntoView({ behavior: 'smooth' });
       }, 100);

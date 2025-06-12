@@ -1,5 +1,5 @@
 import db from '@/drizzle';
-import { fuelTypes, fuelPrices, gasStations } from '@/drizzle/schema';
+import { fuelTypes, fuelPrices } from '@/drizzle/schema';
 import { NextResponse } from 'next/server';
 import { eq } from 'drizzle-orm';
 

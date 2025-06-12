@@ -4,7 +4,7 @@ export default function Footer() {
   return (
     <footer className="bg-card text-card-foreground py-8 border-t">
       <div className="container mx-auto px-4">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div>
             <h3 className="text-xl font-bold mb-4">АЗС Сеть</h3>
             <p className="text-muted-foreground">
@@ -15,7 +15,7 @@ export default function Footer() {
           <div>
             <h4 className="font-semibold mb-4">Контакты</h4>
             <ul className="space-y-2 text-muted-foreground">
-              <li>Телефон: +7 (XXX) XXX-XX-XX</li>
+              <li>Телефон: +7 (999) 999-99-99</li>
               <li>Email: info@azs-network.ru</li>
             </ul>
           </div>
@@ -29,16 +29,16 @@ export default function Footer() {
             </ul>
           </div>
           
-          <div>
+          {/* <div>
             <h4 className="font-semibold mb-4">Подписаться</h4>
             <p className="text-muted-foreground mb-4">
               Будьте в курсе наших акций и новостей
             </p>
-          </div>
+          </div> */}
         </div>
         
         <div className="border-t border-border mt-8 pt-6 text-center text-muted-foreground">
-          <p>© {new Date().getFullYear()} АЗС Сеть. Все права защищены.</p>
+          <p>© 2025 АЗС Сеть. Все права защищены.</p>
         </div>
       </div>
     </footer>

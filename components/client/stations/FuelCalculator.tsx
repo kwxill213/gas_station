@@ -29,7 +29,6 @@ export default function FuelCalculator() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // Загрузка списка АЗС
   useEffect(() => {
     const fetchStations = async () => {
       try {
@@ -47,7 +46,6 @@ export default function FuelCalculator() {
     fetchStations();
   }, []);
 
-  // Загрузка типов топлива при выборе АЗС
   useEffect(() => {
     const fetchFuelTypes = async () => {
       if (!selectedStationId) {

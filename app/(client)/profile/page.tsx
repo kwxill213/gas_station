@@ -1,11 +1,10 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import { Loader2, Edit, Save, X, User } from 'lucide-react';
+import { Loader2, Edit, Save, X, User, User as UserIcon } from 'lucide-react';
 import api from '@/lib/api';
 import { toast } from 'sonner';
 import { useAuth } from '@/lib/hooks/useAuth';
-import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 
@@ -125,7 +124,7 @@ export default function ProfilePage() {
                   />
                 ) : (
                   <div className="w-24 h-24 rounded-full bg-secondary flex items-center justify-center">
-                    <User className="h-12 w-12 text-muted-foreground" />
+                    <UserIcon className="h-12 w-12 text-muted-foreground" />
                   </div>
                 )}
                 {isEditing && (

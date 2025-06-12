@@ -46,7 +46,6 @@ export async function PUT(
 
     let updatedData = await request.json();
 
-    // Убедимся, что updatedData является массивом
     if (!Array.isArray(updatedData)) {
       updatedData = [updatedData];
     }
@@ -99,7 +98,18 @@ export async function POST(
     }
     const newItem = await request.json();
     if (!newItem.id) delete newItem.id;
-    await db.insert(table).values(newItem);
+
+    const processedItem = { ...newItem };
+    for (const key in processedItem) {
+      if (
+        typeof processedItem[key] === 'string' &&
+        /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}/.test(processedItem[key])
+      ) {
+        processedItem[key] = new Date(processedItem[key]);
+      }
+    }
+
+    await db.insert(table).values(processedItem);
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error('Data create error:', error);

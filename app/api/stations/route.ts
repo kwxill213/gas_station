@@ -5,7 +5,6 @@ import { eq } from 'drizzle-orm';
 
 export async function GET() {
   try {
-    // Получаем все активные станции
     const stations = await db
       .select({
         id: gasStations.id,
@@ -20,7 +19,6 @@ export async function GET() {
       .from(gasStations)
       .where(eq(gasStations.isActive, true));
 
-    // Получаем цены на топливо для всех станций
     const prices = await db
       .select({
         stationId: fuelPrices.stationId,
@@ -31,7 +29,6 @@ export async function GET() {
       .from(fuelPrices)
       .innerJoin(fuelTypes, eq(fuelPrices.fuelTypeId, fuelTypes.id));
 
-    // Объединяем данные
     const stationsWithPrices = stations.map(station => ({
       ...station,
       fuelPrices: prices.filter(price => price.stationId === station.id)

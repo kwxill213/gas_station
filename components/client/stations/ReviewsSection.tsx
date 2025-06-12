@@ -8,7 +8,6 @@ import { toast } from 'sonner';
 import { Star } from 'lucide-react';
 import { useAuth } from '@/lib/hooks/useAuth';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import Image from 'next/image';
 
 interface Review {
   id: string;
@@ -92,7 +91,6 @@ export default function ReviewsSection({ stationId, stationName }: ReviewsSectio
       toast.success('Отзыв успешно добавлен');
       setNewReview({ rating: 0, comment: '' });
       
-      // Обновляем отзывы и статистику
       setReviews(prev => [data.review, ...prev]);
       setStats(data.stats);
     } catch (error) {

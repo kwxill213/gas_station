@@ -25,9 +25,9 @@ export async function GET(request: Request) {
       .from(promotions)
       .leftJoin(gasStations, eq(promotions.stationId, gasStations.id));
 
-    // Фильтры
     if (activeOnly) {
       const now = new Date();
+      //@ts-ignore
       promotionsQuery = promotionsQuery.where(
         and(
           eq(promotions.isActive, true),
@@ -38,6 +38,7 @@ export async function GET(request: Request) {
     }
 
     if (stationId) {
+      //@ts-ignore
       promotionsQuery = promotionsQuery.where(eq(promotions.stationId, Number(stationId)));
     }
 

@@ -66,7 +66,7 @@ export default function StationsMap({ onStationSelect }: StationsMapProps) {
         <YMaps>
           <Map
             defaultState={{
-              center: [55.7558, 37.6173], // Москва
+              center: [55.7558, 37.6173],
               zoom: 10,
             }}
             width="100%"
@@ -90,7 +90,6 @@ export default function StationsMap({ onStationSelect }: StationsMapProps) {
         </YMaps>
       </div>
 
-      {/* Модальное окно с информацией о станции */}
       <Dialog open={!!selectedStation} onOpenChange={() => setSelectedStation(null)}>
         <DialogContent className="max-w-2xl">
           {selectedStation && (

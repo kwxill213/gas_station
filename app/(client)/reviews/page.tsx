@@ -1,17 +1,18 @@
 import db from '@/drizzle';
 import { gasStations, reviews } from '@/drizzle/schema';
-import { eq, sql } from 'drizzle-orm';
+import { eq, sql, and } from 'drizzle-orm';
 import Link from 'next/link';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Star } from 'lucide-react';
 
 export default async function ReviewsPage() {
-  // Получаем все АЗС с их отзывами и статистикой
+  // Получаем только активные станции с отзывами
   const stations = await db
     .select({
       id: gasStations.id,
       name: gasStations.name,
       address: gasStations.address,
+      isActive: gasStations.isActive,
       reviews: reviews,
       stats: {
         averageRating: sql<number>`ROUND(AVG(${reviews.rating}), 1)`,
@@ -19,11 +20,18 @@ export default async function ReviewsPage() {
       },
     })
     .from(gasStations)
-    .leftJoin(reviews, eq(gasStations.id, reviews.stationId))
+    .leftJoin(
+      reviews, 
+      and(
+        eq(gasStations.id, reviews.stationId),
+        eq(gasStations.isActive, true) // Добавляем условие активности
+      )
+    )
+    .where(eq(gasStations.isActive, true)) // Фильтруем только активные станции
     .groupBy(gasStations.id, gasStations.name, gasStations.address, reviews.id, reviews.rating, reviews.comment, reviews.createdAt, reviews.response, reviews.responseDate)
     .orderBy(gasStations.name);
 
-  // Группируем отзывы по АЗС
+  // Обрабатываем данные для группировки отзывов
   const stationsWithReviews = stations.reduce((acc, curr) => {
     const existingStation = acc.find(s => s.id === curr.id);
     if (existingStation) {
@@ -51,6 +59,11 @@ export default async function ReviewsPage() {
     };
   }>);
 
+  // Фильтруем станции, у которых есть отзывы
+  const stationsWithNonEmptyReviews = stationsWithReviews.filter(
+    station => station.reviews.length > 0 || station.stats.totalReviews > 0
+  );
+
   const renderStars = (rating: number) => {
     return (
       <div className="flex items-center gap-1">
@@ -73,7 +86,7 @@ export default async function ReviewsPage() {
       <h1 className="text-3xl font-bold mb-8">Отзывы о АЗС</h1>
 
       <div className="grid gap-6">
-        {stationsWithReviews.map((station) => (
+        {stationsWithNonEmptyReviews.map((station) => (
           <Card key={station.id}>
             <CardHeader>
               <div className="flex justify-between items-start">
@@ -161,4 +174,4 @@ export default async function ReviewsPage() {
       </div>
     </div>
   );
-} 
+}
